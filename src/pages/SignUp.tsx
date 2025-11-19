@@ -2,18 +2,20 @@ import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import type { FieldType, User } from "../Props";
 import { api } from "../components/Api";
+import { openNotification } from "../utlis/duplicateEmailNotification";
 
 const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     const res = await api.get<User[]>("http://localhost:3000/users");
     const exists = res.data.some(e => e.email === values.email)
-
+    console.log('here');
+    
     if(exists){
-        
+        openNotification();
+        return;
     }
 
   console.log("User added", res.data);
 
-  console.log("Success:", values);
 };
 
 const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {

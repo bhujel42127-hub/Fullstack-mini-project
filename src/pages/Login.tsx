@@ -1,10 +1,16 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
-import type { FieldType } from "../Props";
 import { api } from "../components/Api";
+import type { FieldType, User } from "../Props";
 
 const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-  const res = await api.post("http://localhost:3000/users", values);
+  const res = await api.get<User[]>("http://localhost:3000/users");
+  const exists = res.data.some((e) => e.email === values.email);
+
+  if (exists) {
+    await api.post("http://localhost:3000/users", values);
+    console.log("User logged in!", res.data);
+  }
 };
 
 const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
