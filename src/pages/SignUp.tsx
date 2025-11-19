@@ -1,9 +1,13 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import type { FieldType } from "../Props";
+import { api } from "../components/Api";
 
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     
+  const res = await api.post("http://localhost:3000/users", values);
+  console.log("User added", res.data);
+
   console.log("Success:", values);
 };
 

@@ -1,24 +1,22 @@
 {
   "users": [
     {
-      "id": 0,
+      "id": "d637",
       "email": "anis@gmail.com",
-      "password": "",
-      "bio": "",
-      "name": "Anis",
-      "createdAt": "",
-      "updatedAt": ""
+      "password": "anis123",
+      "confirmPassword": "anis123"
+    },
+    {
+      "id": "c1b5"
+    },
+    {
+      "id": "709f"
+    },
+    {
+      "id": "636f",
+      "email": "anis@gmail.com",
+      "password": "anis123"
     }
   ],
-  "products": [
-    {
-      "id": 0,
-      "name": "",
-      "price": 0,
-      "description": "",
-      "stock": 0,
-      "createdAt": "",
-      "updatedAt": ""
-    }
-  ]
+  "products": []
 }

@@ -1,9 +1,10 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import type { FieldType } from "../Props";
+import { api } from "../components/Api";
 
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-  console.log("Success:", values);
+const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const res = await api.post("http://localhost:3000/users", values);
 };
 
 const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
