@@ -6,15 +6,24 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Product from "./pages/Product";
 import { AuthGaurd } from "./AuthGaurd";
+import { PublicRoute } from "./PublicRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    ),
   },
   {
     path: "/signup",
-    element: <SignUp />,
+    element: (
+      <PublicRoute>
+        <SignUp />
+      </PublicRoute>
+    ),
   },
   {
     path: "/",

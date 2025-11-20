@@ -1,22 +1,103 @@
 {
   "users": [
     {
-      "id": "d637",
-      "email": "anis@gmail.com",
+      "id": "0847",
+      "email": "junyj@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
+    },
+    {
+      "id": "996b",
+      "email": "vipozugyna@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
+    },
+    {
+      "id": "dcb1",
+      "email": "cekevimat@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
+    },
+    {
+      "id": "f5b3",
+      "email": "bhujel@gmail.com",
       "password": "anis123",
       "confirmPassword": "anis123"
     },
     {
-      "id": "c1b5"
+      "id": "1fd0",
+      "email": "wynefyzaco@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
     },
     {
-      "id": "709f"
+      "id": "7b1b",
+      "email": "rorylyn@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
     },
     {
-      "id": "636f",
+      "id": "dcfe",
       "email": "anis@gmail.com",
-      "password": "anis123"
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
+    },
+    {
+      "id": "fa89",
+      "email": "mofedef@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
     }
   ],
-  "products": []
+  "products": [
+    {
+      "id": "b346",
+      "name": "asdfas",
+      "price": "100",
+      "stock": "10000",
+      "description": "lkjasfd"
+    },
+    {
+      "id": "16fa",
+      "name": "Camera",
+      "price": "asdfk",
+      "stock": "lkjasdf",
+      "description": "lkasdf"
+    },
+    {
+      "id": "efdb",
+      "name": "Camera",
+      "price": "sdf",
+      "stock": "sfl",
+      "description": "sdf"
+    },
+    {
+      "id": "87dc",
+      "name": "Camera",
+      "price": "dfljk",
+      "stock": "sdlfkjs",
+      "description": "sdflk"
+    },
+    {
+      "id": "1eab",
+      "name": "Camera",
+      "price": "asfsfk",
+      "stock": "khasfdkj",
+      "description": "asfdkj"
+    },
+    {
+      "id": "d6d5",
+      "name": "Camera",
+      "price": "asfasfdlk",
+      "stock": ";lkjasdf",
+      "description": ";lkjasdf"
+    },
+    {
+      "id": "3fe0",
+      "name": "Camera",
+      "price": "sdfaslkfj",
+      "stock": ";lkasjdf",
+      "description": "l;kajdsf"
+    }
+  ]
 }

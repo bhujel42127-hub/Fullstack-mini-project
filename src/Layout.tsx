@@ -1,8 +1,11 @@
 import { Layout, Menu } from "antd";
+import { href, useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer } = Layout;
 
 export const DefaultLayout = () => {
+  const navigate = useNavigate();
+
   const items = [
     {
       key: "1",
@@ -11,6 +14,14 @@ export const DefaultLayout = () => {
     {
       key: "2",
       label: <a href="/profile">Profile</a>,
+    },
+    {
+      key: "3",
+      label: "Logout",
+      onClick: () => {
+        localStorage.removeItem("user");
+        navigate("/login");
+      },
     },
   ];
 
