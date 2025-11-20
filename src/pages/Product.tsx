@@ -3,7 +3,6 @@ import { api } from "../components/Api";
 import { useEffect, useState } from "react";
 import type { Product, User } from "../Props";
 import { Table, Tag } from "antd";
-import { preview } from "vite";
 
 export default function ProductPage() {
   const [value, setValue] = useState({
