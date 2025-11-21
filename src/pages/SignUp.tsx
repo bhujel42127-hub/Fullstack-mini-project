@@ -1,7 +1,7 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import type { FieldType, User } from "../Props";
-import { api } from "../components/Api";
+import { api } from "../utlis/Api";
 import { dupEmailNotification } from "../utlis/openNotification";
 import { useNavigate } from "react-router-dom";
 

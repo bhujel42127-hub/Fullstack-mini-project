@@ -90,7 +90,7 @@
   "products": [
     {
       "id": "f26a",
-      "name": "Camera",
+      "name": "Camera man 123",
       "price": "kjasf",
       "stock": "10",
       "description": "asdf"
@@ -108,6 +108,13 @@
       "price": ";klajsdf",
       "stock": ";lkjwdf",
       "description": "l;kajsdf"
+    },
+    {
+      "id": "b2fa",
+      "name": "Camera",
+      "price": "24",
+      "stock": "Minim beatae recusan",
+      "description": "Aliquam perspiciatis"
     }
   ]
 }

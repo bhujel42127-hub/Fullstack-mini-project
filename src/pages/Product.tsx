@@ -1,5 +1,5 @@
-import { Button, Form, Input, Modal, Space, type FormProps } from "antd";
-import { api } from "../components/Api";
+import { Button, Form, Input, Modal, Row, Space, type FormProps } from "antd";
+import { api } from "../utlis/Api";
 import { useEffect, useState } from "react";
 import type { Product, User } from "../Props";
 import { Table } from "antd";
@@ -7,10 +7,12 @@ import { Table } from "antd";
 type Value = {
   isModalOpen: boolean;
   isLoading: boolean;
-  defaultValues: Product;
+  // defaultValues: Product;
+  isEdit: boolean;
 };
 
 const defaultProduct = {
+  id: undefined,
   name: "",
   price: 0,
   stock: 0,
@@ -21,7 +23,7 @@ export default function ProductPage() {
   const [value, setValue] = useState<Value>({
     isModalOpen: false,
     isLoading: false,
-    defaultValues: defaultProduct,
+    isEdit: false,
   });
   const [product, setProduct] = useState<Product[]>([]);
 
@@ -66,18 +68,32 @@ export default function ProductPage() {
     }));
   };
 
-  const onFinish: FormProps<Product | User>["onFinish"] = async (values) => {
-    console.log("reached");
-    await api.post("/products", values);
-    form.resetFields();
-    setValue((prev) => ({
-      ...prev,
-      isModalOpen: false,
-    }));
+  const onFinish: FormProps<Product>["onFinish"] = async (values) => {
+    // console.log("reached");
+    // console.log("Form data:", values);
+
+    if (value.isEdit) {
+      console.log("reached");
+
+      await api.patch(`/products/${values.id}`, values);
+
+      window.location.reload();
+    } else {
+      console.log("reached");
+
+      await api.post("/products", values);
+      form.resetFields();
+      setValue((prev) => ({
+        ...prev,
+        isModalOpen: false,
+      }));
+      setProduct([{ ...product[0], ...values }]);
+    }
+
     console.log("Product added: ", values);
-    const res = await api.get<Product[]>("/products");
+    // const res = await api.get<Product[]>("/products");
     await localStorage.setItem("product", JSON.stringify(values));
-    setProduct(res.data);
+    // setProduct(res.data);
   };
 
   const { Column } = Table;
@@ -91,17 +107,17 @@ export default function ProductPage() {
     window.location.reload();
   };
 
-  useEffect(() => {
-    form.setFields(
-      Object.entries(value.defaultValues).map(([key, value]) => ({
-        name: key,
-        value: value,
-      }))
-    );
-  }, [value.defaultValues]);
+  // useEffect(() => {
+  //   form.setFields(
+  //     Object.entries(value.defaultValues).map(([key, value]) => ({
+  //       name: key,
+  //       value: value,
+  //     }))
+  //   );
+  // }, [value.defaultValues]);
 
   const ProductTable = () => (
-    <Table<Product> dataSource={product}>
+    <Table<Product> dataSource={product} rowKey={"id"}>
       <Column title="Name" dataIndex="name" key="name" />
       <Column title="Price" dataIndex="price" key="price" />
       <Column title="Stock" dataIndex="stock" key="stock" />
@@ -113,9 +129,11 @@ export default function ProductPage() {
           <Space size="middle">
             <Button
               onClick={() => {
+                console.log("Record: ", record);
+                form.setFieldsValue(record);
                 setValue({
                   ...value,
-                  defaultValues: record,
+                  isEdit: true,
                   isModalOpen: true,
                 });
               }}
@@ -142,7 +160,12 @@ export default function ProductPage() {
       <Button
         type="primary"
         onClick={() => {
-          setValue({ ...value, defaultValues: defaultProduct, isModalOpen: true });
+          form.resetFields();
+          setValue({
+            ...value,
+            isEdit: false,
+            isModalOpen: true,
+          });
         }}
       >
         Add Product
@@ -160,9 +183,11 @@ export default function ProductPage() {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
-          initialValues={value.defaultValues}
           onFinish={onFinish}
         >
+          <Form.Item<Product> label="Product ID" name="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item<Product>
             label="Product Name"
             name="name"

@@ -1,6 +1,6 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
-import { api } from "../components/Api";
+import { api } from "../utlis/Api";
 import type { FieldType, User } from "../Props";
 import { useNavigate } from "react-router-dom";
 import { loginFailure } from "../utlis/openNotification";

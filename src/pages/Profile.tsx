@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { User } from "../Props";
-import { api } from "../components/Api";
+import { api } from "../utlis/Api";
 import { Button, Form, Input, Table, type FormProps } from "antd";
 import { editSuccess } from "../utlis/openNotification";
 
