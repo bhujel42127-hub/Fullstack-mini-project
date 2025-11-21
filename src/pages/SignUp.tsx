@@ -21,10 +21,17 @@ export const SignUp = () => {
       return;
     }
     if (!userExists) {
-      await api.post("/users", values);
+      const timeStamp = new Date().toISOString();
+
+      const newUser = {
+        ...values,
+        createdAt: timeStamp,
+      };
+
+      await api.post("/users", newUser);
       navigate("/login");
+      console.log("User added", newUser);
     }
-    console.log("User added", values);
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -45,6 +52,16 @@ export const SignUp = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <Form.Item<FieldType>
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: "Please enter your name!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item<FieldType> label="Bio" name="bio">
+          <Input />
+        </Form.Item>
         <Form.Item<FieldType>
           label="Email"
           name="email"

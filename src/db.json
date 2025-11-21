@@ -22,7 +22,9 @@
       "id": "f5b3",
       "email": "bhujel@gmail.com",
       "password": "anis123",
-      "confirmPassword": "anis123"
+      "confirmPassword": "anis123",
+      "name": "Anis bhujel ",
+      "bio": "fasdlfjfsdfsdffsdfsdffsdf"
     },
     {
       "id": "1fd0",
@@ -47,64 +49,65 @@
       "email": "mofedef@mailinator.com",
       "password": "Pa$$w0rd!",
       "confirmPassword": "Pa$$w0rd!"
+    },
+    {
+      "id": "f7bc",
+      "name": "Candice ",
+      "bio": "yoyo ceo of mero startup",
+      "email": "dyxic@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "confirmPassword": "Pa$$w0rd!"
+    },
+    {
+      "id": "05b8"
+    },
+    {
+      "id": "9f3e"
+    },
+    {
+      "id": "240b"
+    },
+    {
+      "id": "a226"
+    },
+    {
+      "id": "eb25"
+    },
+    {
+      "id": "ac35"
+    },
+    {
+      "id": "eb02",
+      "name": "Anis ",
+      "bio": "digu fullstack intern",
+      "email": "anis42127@gmail.com",
+      "password": "anis123",
+      "confirmPassword": "anis123",
+      "createdAt": "2025-11-21T05:15:13.285Z",
+      "updatedAt": "2025-11-21T05:15:13.285Z"
     }
   ],
   "products": [
     {
-      "id": "b346",
-      "name": "asdfas",
-      "price": "100",
-      "stock": "10000",
-      "description": "lkjasfd"
-    },
-    {
-      "id": "16fa",
+      "id": "f26a",
       "name": "Camera",
-      "price": "asdfk",
-      "stock": "lkjasdf",
-      "description": "lkasdf"
-    },
-    {
-      "id": "efdb",
-      "name": "Camera",
-      "price": "sdf",
-      "stock": "sfl",
-      "description": "sdf"
-    },
-    {
-      "id": "87dc",
-      "name": "Camera",
-      "price": "dfljk",
-      "stock": "sdlfkjs",
-      "description": "sdflk"
-    },
-    {
-      "id": "1eab",
-      "name": "Camera",
-      "price": "asfsfk",
-      "stock": "khasfdkj",
-      "description": "asfdkj"
-    },
-    {
-      "id": "d6d5",
-      "name": "Camera",
-      "price": "asfasfdlk",
-      "stock": ";lkjasdf",
-      "description": ";lkjasdf"
-    },
-    {
-      "id": "3fe0",
-      "name": "Camera",
-      "price": "sdfaslkfj",
-      "stock": ";lkasjdf",
-      "description": "l;kajdsf"
-    },
-    {
-      "id": "5a77",
-      "name": "Camera",
-      "price": "dfasf",
-      "stock": "sadf",
+      "price": "kjasf",
+      "stock": "10",
       "description": "asdf"
+    },
+    {
+      "id": "7f6f",
+      "name": "Maryam Kemp",
+      "price": "750",
+      "stock": "Pariatur Voluptas e",
+      "description": "Et quia fugiat et co"
+    },
+    {
+      "id": "d6b0",
+      "name": "asdkfj",
+      "price": ";klajsdf",
+      "stock": ";lkjwdf",
+      "description": "l;kajsdf"
     }
   ]
 }

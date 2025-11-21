@@ -9,16 +9,18 @@ export type User = {
 };
 
 export type Product = {
-  id: number;
+  id?: number;
   name: string;
   price: number;
   description: string;
   stock: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type FieldType = {
+  name?: string;
+  bio?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;

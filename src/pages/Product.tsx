@@ -1,19 +1,33 @@
-import { Button, Form, Input, Modal, type FormProps } from "antd";
+import { Button, Form, Input, Modal, Space, type FormProps } from "antd";
 import { api } from "../components/Api";
 import { useEffect, useState } from "react";
 import type { Product, User } from "../Props";
-import { Table, Tag } from "antd";
+import { Table } from "antd";
+
+type Value = {
+  isModalOpen: boolean;
+  isLoading: boolean;
+  defaultValues: Product;
+};
+
+const defaultProduct = {
+  name: "",
+  price: 0,
+  stock: 0,
+  description: "",
+};
 
 export default function ProductPage() {
-  const [value, setValue] = useState({
+  const [value, setValue] = useState<Value>({
     isModalOpen: false,
     isLoading: false,
+    defaultValues: defaultProduct,
   });
-  const [product, setProduct] = useState<Product[]>();
+  const [product, setProduct] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await api.get<Product[]>("/products");
+      const res = await api.get<Product[]>("/products/");
       setProduct(res.data);
     };
     fetchProduct();
@@ -26,7 +40,6 @@ export default function ProductPage() {
   const addProduct = () => {};
   const editProduct = () => {};
 
-  const fetchProduct = async () => {};
   // const deleteProduct = () => {
 
   // };
@@ -45,18 +58,11 @@ export default function ProductPage() {
   //   }));
   // };
 
-  const showModal = () => {
-    setValue((prev) => ({
-      ...prev,
-      isModalOpen: true,
-    }));
-  };
-
   const handleCancel = () => {
     form.resetFields();
     setValue((prev) => ({
       ...prev,
-      isModalOpen: true,
+      isModalOpen: false,
     }));
   };
 
@@ -66,49 +72,79 @@ export default function ProductPage() {
     form.resetFields();
     setValue((prev) => ({
       ...prev,
-      isModalOpen: true,
+      isModalOpen: false,
     }));
     console.log("Product added: ", values);
     const res = await api.get<Product[]>("/products");
+    await localStorage.setItem("product", JSON.stringify(values));
     setProduct(res.data);
   };
 
   const { Column } = Table;
 
+  const handleDelete = async (id: number) => {
+    console.log("reached");
+
+    await api.delete(`http://localhost:3000/products/${id}`);
+    console.log("reached");
+
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    form.setFields(
+      Object.entries(value.defaultValues).map(([key, value]) => ({
+        name: key,
+        value: value,
+      }))
+    );
+  }, [value.defaultValues]);
+
   const ProductTable = () => (
     <Table<Product> dataSource={product}>
-      <Column title="Name" dataIndex="p_name" key="p_name" />
+      <Column title="Name" dataIndex="name" key="name" />
       <Column title="Price" dataIndex="price" key="price" />
       <Column title="Stock" dataIndex="stock" key="stock" />
       <Column title="Description" dataIndex="description" key="description" />
       <Column
-        title="Tags"
-        dataIndex="tags"
-        key="tags"
-        render={(tags: string[]) => (
-          <>
-            {tags.map((tag) => {
-              let color = tag.length > 5 ? "geekblue" : "green";
-              if (tag === "loser") {
-                color = "volcano";
-              }
-              return (
-                <Tag color={color} key={tag}>
-                  {tag.toUpperCase()}
-                </Tag>
-              );
-            })}
-          </>
+        title="Action"
+        key="action"
+        render={(_: any, record: Product) => (
+          <Space size="middle">
+            <Button
+              onClick={() => {
+                setValue({
+                  ...value,
+                  defaultValues: record,
+                  isModalOpen: true,
+                });
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              danger
+              onClick={() => {
+                handleDelete(record.id as number);
+              }}
+            >
+              Delete
+            </Button>
+          </Space>
         )}
       />
-      <Column />
     </Table>
   );
 
   return (
     <div className="flex gap-4">
       <ProductTable />
-      <Button type="primary" onClick={showModal}>
+      <Button
+        type="primary"
+        onClick={() => {
+          setValue({ ...value, defaultValues: defaultProduct, isModalOpen: true });
+        }}
+      >
         Add Product
       </Button>
       <Modal
@@ -124,7 +160,7 @@ export default function ProductPage() {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
-          initialValues={{ name: "Camera" }}
+          initialValues={value.defaultValues}
           onFinish={onFinish}
         >
           <Form.Item<Product>

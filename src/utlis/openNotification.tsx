@@ -23,3 +23,10 @@ export const loginFailure = () => {
     placement: "topRight",
   });
 };
+export const editSuccess = () => {
+  notification.success({
+    message: "Update Sucess",
+    description: "Updated user data",
+    placement: "topRight",
+  });
+};
