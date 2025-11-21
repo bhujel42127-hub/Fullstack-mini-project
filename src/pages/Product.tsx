@@ -87,7 +87,13 @@ export default function ProductPage() {
         ...prev,
         isModalOpen: false,
       }));
-      setProduct([{ ...product[0], ...values }]);
+      // const timeStamp = new Date().toISOString();
+
+      // const newProduct = [{
+      //   ...values,
+      //   createdAt: timeStamp
+      // }]
+      setProduct([{ ...product[0], ...values}]);
     }
 
     console.log("Product added: ", values);
