@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { User } from "../Props";
 import { api } from "../utlis/Api";
-import { Button, Form, Input, Table, type FormProps } from "antd";
+import { Button, Card, Form, Input, Table, type FormProps } from "antd";
 import { editSuccess } from "../utlis/openNotification";
 
 export default function ProfilePage() {
@@ -26,7 +26,7 @@ export default function ProfilePage() {
     // const userInfo: User[] = JSON.parse(loggedUser);
     const userId = user[0].id;
 
-    await api.patch(`http://localhost:3000/users/${userId}`, values);
+    await api.patch(`/users/${userId}`, values);
     await localStorage.setItem(
       "user",
       JSON.stringify([{ ...user[0], ...values }])
@@ -45,6 +45,14 @@ export default function ProfilePage() {
   };
 
   return (
+    // <div className="flex justify-center items-center h-full">
+    //   <Card title="tile" variant="borderless" style={{ width: 300 }}>
+    //     <h1></h1>
+    //     <p>Card content</p>
+    //     <p>Card content</p>
+    //   </Card>
+    // </div>
+
     <div className="flex">
       <Form
         form={form}
@@ -66,6 +74,12 @@ export default function ProfilePage() {
         <Form.Item<User> label="Bio" name="bio">
           <Input />
         </Form.Item>
+        <Form.Item<User> label="Email" name="email">
+          <Input />
+        </Form.Item>
+        <Form.Item<User> label="Password" name="password">
+          <Input.Password readOnly />
+        </Form.Item>
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit">
@@ -74,12 +88,12 @@ export default function ProfilePage() {
         </Form.Item>
       </Form>
 
-      <Table<User> dataSource={user} rowKey="id" className="flex w-full">
+      {/* <Table<User> dataSource={user} rowKey="id" className="flex w-full">
         <Column title="ID" dataIndex="id" key="id" />
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Bio" dataIndex="bio" key="bio" />
         <Column title="Email" dataIndex="email" key="email" />
-      </Table>
+      </Table> */}
     </div>
   );
 }

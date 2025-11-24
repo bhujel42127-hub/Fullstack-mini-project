@@ -8,7 +8,7 @@ import { loginFailure } from "../utlis/openNotification";
 export const Login = () => {
   const navigate = useNavigate();
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const onFinish = async (values: FieldType) => {
     // console.log("reached");
 
     const res = await api.get<User[]>("/users");
@@ -20,7 +20,7 @@ export const Login = () => {
     // console.log("User value: ", userExists);
 
     if (userExists.length > 0) {
-      const loggedUser = localStorage.setItem(
+      localStorage.setItem(
         "user",
         JSON.stringify(userExists)
       );
@@ -39,40 +39,62 @@ export const Login = () => {
   };
 
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item<FieldType>
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: "Please input your email!" }]}
-      >
-        <Input />
-      </Form.Item>
+    <div className="flex flex-row min-h-screen">
+      <div className="flex-1 flex items-center justify-center bg-gray-50">
+        <div className="flex items-center justify-center">
+          <h1 className="text-5xl font-bold">My Brand</h1>
+        </div>
+      </div>
 
-      <Form.Item<FieldType>
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password />
-      </Form.Item>
+      <div className="flex-1 flex items-center ">
+        <div className="w-full max-w-md px-8">
+          <Form
+            name="basic"
+            layout="vertical"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item<FieldType>
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: "Please input your email!" }]}
+            >
+              <Input size="large" />
+            </Form.Item>
 
-      <Form.Item label={null}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-        <a href="/signup" className="flex items-center">
-          Already got an account? SignUp
-        </a>
-      </Form.Item>
-    </Form>
+            <Form.Item<FieldType>
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password size="large" />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" size="large" block>
+                Submit
+              </Button>
+            </Form.Item>
+
+            <div className="text-center">
+              <a href="/signup" className="text-blue-500 hover:text-blue-700">
+                Don't have an account? SignUp
+              </a>
+              <br />
+              <a
+                href="/verify-email"
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Forgot Password?
+              </a>
+            </div>
+          </Form>
+        </div>
+      </div>
+    </div>
   );
 };

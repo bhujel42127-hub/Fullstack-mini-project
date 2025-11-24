@@ -1,7 +1,7 @@
-import { Button, Form, Input, Modal, Row, Space, type FormProps } from "antd";
+import { Button, Form, Input, Modal, Space, type FormProps } from "antd";
 import { api } from "../utlis/Api";
 import { useEffect, useState } from "react";
-import type { Product, User } from "../Props";
+import type { Product } from "../Props";
 import { Table } from "antd";
 
 type Value = {
@@ -11,13 +11,13 @@ type Value = {
   isEdit: boolean;
 };
 
-const defaultProduct = {
-  id: undefined,
-  name: "",
-  price: 0,
-  stock: 0,
-  description: "",
-};
+// const defaultProduct = {
+//   id: undefined,
+//   name: "",
+//   price: 0,
+//   stock: 0,
+//   description: "",
+// };
 
 export default function ProductPage() {
   const [value, setValue] = useState<Value>({
@@ -25,6 +25,57 @@ export default function ProductPage() {
     isLoading: false,
     isEdit: false,
   });
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "Stock",
+      dataIndex: "stock",
+      key: "stock",
+    },
+    {
+      title: "Desciption",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: Product) => (
+        <Space size="middle">
+          <Button
+            onClick={() => {
+              console.log("Record: ", record);
+              form.setFieldsValue(record);
+              setValue({
+                ...value,
+                isEdit: true,
+                isModalOpen: true,
+              });
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            danger
+            onClick={() => {
+              handleDelete(record.id as number);
+            }}
+          >
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
+  ];
   const [product, setProduct] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -93,7 +144,7 @@ export default function ProductPage() {
       //   ...values,
       //   createdAt: timeStamp
       // }]
-      setProduct([{ ...product[0], ...values}]);
+      setProduct([{ ...product[0], ...values }]);
     }
 
     console.log("Product added: ", values);
@@ -107,7 +158,7 @@ export default function ProductPage() {
   const handleDelete = async (id: number) => {
     console.log("reached");
 
-    await api.delete(`http://localhost:3000/products/${id}`);
+    await api.delete(`products/${id}`);
     console.log("reached");
 
     window.location.reload();
@@ -123,45 +174,15 @@ export default function ProductPage() {
   // }, [value.defaultValues]);
 
   const ProductTable = () => (
-    <Table<Product> dataSource={product} rowKey={"id"}>
-      <Column title="Name" dataIndex="name" key="name" />
-      <Column title="Price" dataIndex="price" key="price" />
-      <Column title="Stock" dataIndex="stock" key="stock" />
-      <Column title="Description" dataIndex="description" key="description" />
-      <Column
-        title="Action"
-        key="action"
-        render={(_: any, record: Product) => (
-          <Space size="middle">
-            <Button
-              onClick={() => {
-                console.log("Record: ", record);
-                form.setFieldsValue(record);
-                setValue({
-                  ...value,
-                  isEdit: true,
-                  isModalOpen: true,
-                });
-              }}
-            >
-              Edit
-            </Button>
-            <Button
-              danger
-              onClick={() => {
-                handleDelete(record.id as number);
-              }}
-            >
-              Delete
-            </Button>
-          </Space>
-        )}
-      />
-    </Table>
+    <Table<Product>
+      dataSource={product}
+      rowKey={"id"}
+      columns={columns}
+    ></Table>
   );
 
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col gap-4">
       <ProductTable />
       <Button
         type="primary"
@@ -173,6 +194,7 @@ export default function ProductPage() {
             isModalOpen: true,
           });
         }}
+        style={{ alignSelf: "flex-start" }}
       >
         Add Product
       </Button>

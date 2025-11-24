@@ -21,7 +21,7 @@
     {
       "id": "f5b3",
       "email": "bhujel@gmail.com",
-      "password": "anis123",
+      "password": "anis1234",
       "confirmPassword": "anis123",
       "name": "Anis bhujel ",
       "bio": "fasdlfjfsdfsdffsdfsdffsdf"
@@ -88,13 +88,6 @@
     }
   ],
   "products": [
-    {
-      "id": "f26a",
-      "name": "Camera man 123",
-      "price": "kjasf",
-      "stock": "10",
-      "description": "asdf"
-    },
     {
       "id": "7f6f",
       "name": "Maryam Kemp",

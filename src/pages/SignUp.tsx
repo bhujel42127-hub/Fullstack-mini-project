@@ -41,60 +41,78 @@ export const SignUp = () => {
   };
 
   return (
-    <div>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item<FieldType>
-          label="Name"
-          name="name"
-          rules={[{ required: true, message: "Please enter your name!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item<FieldType> label="Bio" name="bio">
-          <Input />
-        </Form.Item>
-        <Form.Item<FieldType>
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: "Please input your email!" }]}
-        >
-          <Input />
-        </Form.Item>
+    <div className="flex flex-row min-h-screen">
+      <div className="flex-1 flex items-center justify-center bg-gray-50">
+        {/* Logo section */}
+        <div className="flex items-center justify-center">
+          <h1 className="text-5xl font-bold">My Brand</h1>
+        </div>
+      </div>
 
-        <Form.Item<FieldType>
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-md px-8">
+          <Form
+            name="signup"
+            layout="vertical"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item<FieldType>
+              label="Name"
+              name="name"
+              rules={[{ required: true, message: "Please input your name!" }]}
+            >
+              <Input size="large" />
+            </Form.Item>
 
-        <Form.Item<FieldType>
-          label="Confirm Password"
-          name="confirmPassword"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
+            <Form.Item<FieldType> label="Bio" name="bio">
+              <Input size="large" />
+            </Form.Item>
 
-        <Form.Item label={null}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-        <a href="/login" className="items-center">
-          Already got an account? Login
-        </a>
-      </Form>
+            <Form.Item<FieldType>
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: "Please input your email!" }]}
+            >
+              <Input size="large" />
+            </Form.Item>
+
+            <Form.Item<FieldType>
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password size="large" />
+            </Form.Item>
+
+            <Form.Item<FieldType>
+              label="Confirm Password"
+              name="confirmPassword"
+              rules={[
+                { required: true, message: "Please confirm your password!" },
+              ]}
+            >
+              <Input.Password size="large" />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" size="large" block>
+                Submit
+              </Button>
+            </Form.Item>
+
+            <div className="text-center">
+              <a href="/login" className="text-blue-500 hover:text-blue-700">
+                Already got an account? Login
+              </a>
+            </div>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

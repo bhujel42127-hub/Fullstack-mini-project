@@ -2,7 +2,7 @@ export type User = {
   id: number;
   email: string;
   password: string;
-  newPass: string;
+  newPassword: string;
   bio: string;
   name: string;
   createdAt: Date;
@@ -20,11 +20,11 @@ export type Product = {
 };
 
 export type FieldType = {
-  name?: string;
+  name: string;
   bio?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
+  email: string;
+  password: string;
+  newPassword: string;
 };
 
 export type AuthProps = {

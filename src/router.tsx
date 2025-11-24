@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
-import App from "./App";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Product from "./pages/Product";
 import { AuthGaurd } from "./AuthGaurd";
 import { PublicRoute } from "./PublicRoute";
+import { DefaultLayout } from "./Layout";
+import { ChangePassword } from "./pages/ChangePassword";
+import { VerifyEmail } from "./pages/EmailVerify";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +16,14 @@ export const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <Login />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/verify-email",
+    element: (
+      <PublicRoute>
+        <VerifyEmail />
       </PublicRoute>
     ),
   },
@@ -26,10 +36,18 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/forgot-password",
+    element: (
+      <PublicRoute>
+        <ChangePassword />
+      </PublicRoute>
+    ),
+  },
+  {
     path: "/",
     element: (
       <AuthGaurd>
-        <App />
+        <DefaultLayout />
       </AuthGaurd>
     ),
     children: [
