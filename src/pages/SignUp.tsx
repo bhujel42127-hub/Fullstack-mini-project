@@ -9,29 +9,45 @@ export const SignUp = () => {
   const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-    console.log("clicked");
-
-    const res = await api.get<User[]>("/users");
-    const userExists = res.data.some((e) => e.email === values.email);
-
-    console.log("User exists: ", userExists);
-
-    if (userExists) {
-      dupEmailNotification();
-      return;
-    }
-    if (!userExists) {
-      const timeStamp = new Date().toISOString();
-
+    try {
       const newUser = {
-        ...values,
-        createdAt: timeStamp,
+        name: values.name,
+        email: values.email,
+        password: values.password,
       };
-
-      await api.post("/users", newUser);
+      const res = await api.post("/auth/signup", newUser);
       navigate("/login");
-      console.log("User added", newUser);
+    } catch (err: any) {
+      if (err.response?.data?.message === "Email already used") {
+        dupEmailNotification();
+      } else {
+        console.log(err);
+      }
     }
+
+    // console.log("clicked");
+
+    // const res = await api.get<User[]>("/users");
+    // const userExists = res.data.some((e) => e.email === values.email);
+
+    // console.log("User exists: ", userExists);
+
+    // if (userExists) {
+    //   dupEmailNotification();
+    //   return;
+    // }
+    // if (!userExists) {
+    //   const timeStamp = new Date().toISOString();
+
+    //   const newUser = {
+    //     ...values,
+    //     createdAt: timeStamp,
+    //   };
+
+    //   await api.post("/users", newUser);
+    //   navigate("/login");
+    //   console.log("User added", newUser);
+    // }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -91,10 +107,8 @@ export const SignUp = () => {
 
             <Form.Item<FieldType>
               label="Confirm Password"
-              name="confirmPassword"
-              rules={[
-                { required: true, message: "Please confirm your password!" },
-              ]}
+              name="newPassword"
+              rules={[{ message: "Please confirm your password!" }]}
             >
               <Input.Password size="large" />
             </Form.Item>

@@ -67,7 +67,7 @@ export default function ProductPage() {
           <Button
             danger
             onClick={() => {
-              handleDelete(record.id as number);
+              handleDelete(record._id as string);
             }}
           >
             Delete
@@ -78,20 +78,17 @@ export default function ProductPage() {
   ];
   const [product, setProduct] = useState<Product[]>([]);
 
+  const fetchProduct = async () => {
+    const res = await api.get("/products");
+    setProduct(res.data.products);
+  };
   useEffect(() => {
-    const fetchProduct = async () => {
-      const res = await api.get<Product[]>("/products/");
-      setProduct(res.data);
-    };
     fetchProduct();
   }, []);
 
   const [form] = Form.useForm();
 
   // const data = await api.get("/products");
-
-  const addProduct = () => {};
-  const editProduct = () => {};
 
   // const deleteProduct = () => {
 
@@ -126,13 +123,18 @@ export default function ProductPage() {
     if (value.isEdit) {
       console.log("reached");
 
-      await api.patch(`/products/${values.id}`, values);
-
-      window.location.reload();
+      await api.put(`/products/${values._id}`, values);
+      await fetchProduct();
+      form.resetFields();
+      setValue((prev) => ({
+        ...prev,
+        isModalOpen: false,
+      }));
     } else {
       console.log("reached");
 
       await api.post("/products", values);
+      await fetchProduct();
       form.resetFields();
       setValue((prev) => ({
         ...prev,
@@ -144,24 +146,19 @@ export default function ProductPage() {
       //   ...values,
       //   createdAt: timeStamp
       // }]
-      setProduct([{ ...product[0], ...values }]);
     }
 
     console.log("Product added: ", values);
     // const res = await api.get<Product[]>("/products");
-    await localStorage.setItem("product", JSON.stringify(values));
     // setProduct(res.data);
   };
 
-  const { Column } = Table;
-
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     console.log("reached");
 
-    await api.delete(`products/${id}`);
+    await api.delete(`/products/${id}`);
+    await fetchProduct();
     console.log("reached");
-
-    window.location.reload();
   };
 
   // useEffect(() => {
@@ -176,7 +173,7 @@ export default function ProductPage() {
   const ProductTable = () => (
     <Table<Product>
       dataSource={product}
-      rowKey={"id"}
+      rowKey={"_id"}
       columns={columns}
     ></Table>
   );
@@ -213,7 +210,7 @@ export default function ProductPage() {
           style={{ maxWidth: 600 }}
           onFinish={onFinish}
         >
-          <Form.Item<Product> label="Product ID" name="id" hidden>
+          <Form.Item<Product> label="Product ID" name="_id" hidden>
             <Input />
           </Form.Item>
           <Form.Item<Product>

@@ -9,27 +9,35 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const onFinish = async (values: FieldType) => {
-    // console.log("reached");
-
-    const res = await api.get<User[]>("/users");
-    // console.log("Users", res.data);
-
-    const userExists = res.data.filter(
-      (e) => e.email === values.email && e.password === values.password
-    );
-    // console.log("User value: ", userExists);
-
-    if (userExists.length > 0) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify(userExists)
-      );
+    //   // console.log("reached");
+    try {
+      const res = await api.post("/auth/login", values);
+      localStorage.setItem("userId", res.data.user.id);
 
       navigate("/dashboard");
-      return;
-      // console.log("User logged in!", res.data);
+    } catch (err) {
+      console.log("Login error: ", err);
     }
-    loginFailure();
+
+    //   const res = await api.get<User[]>("/users");
+    //   // console.log("Users", res.data);
+
+    //   const userExists = res.data.filter(
+    //     (e) => e.email === values.email && e.password === values.password
+    //   );
+    //   // console.log("User value: ", userExists);
+
+    //   if (userExists.length > 0) {
+    //     localStorage.setItem(
+    //       "user",
+    //       JSON.stringify(userExists)
+    //     );
+
+    //     navigate("/dashboard");
+    //     return;
+    //     // console.log("User logged in!", res.data);
+    //   }
+    //   loginFailure();
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (

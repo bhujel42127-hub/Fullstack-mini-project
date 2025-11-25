@@ -8,14 +8,13 @@ export default function ProfilePage() {
   const [user, setUser] = useState<User[]>([]);
 
   useEffect(() => {
-    const loggedUser = localStorage.getItem("user");
+    const loggedUser = localStorage.getItem("userId");
     if (!loggedUser) return;
     const userInfo: User[] = JSON.parse(loggedUser);
     setUser(userInfo);
     form.setFieldsValue(userInfo[0]);
   }, []);
 
-  const { Column } = Table;
   const [form] = Form.useForm();
 
   const onFinish: FormProps<User>["onFinish"] = async (values) => {
@@ -26,7 +25,7 @@ export default function ProfilePage() {
     // const userInfo: User[] = JSON.parse(loggedUser);
     const userId = user[0].id;
 
-    await api.patch(`/users/${userId}`, values);
+    await api.put(`/users/${userId}`, values);
     await localStorage.setItem(
       "user",
       JSON.stringify([{ ...user[0], ...values }])

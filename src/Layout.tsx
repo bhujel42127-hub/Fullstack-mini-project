@@ -1,11 +1,22 @@
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import { HomeOutlined } from "@ant-design/icons";
+import { api } from "./utlis/Api";
 
 const { Header, Content, Footer } = Layout;
 
 export const DefaultLayout = () => {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+      localStorage.removeItem("userId");
+      navigate("/login");
+    } catch (err) {
+      console.log("Logout failed:", err);
+    }
+  };
 
   const items = [
     {
@@ -21,14 +32,6 @@ export const DefaultLayout = () => {
       key: "3",
       label: <a href="/profile">Profile</a>,
     },
-    {
-      key: "4",
-      label: "Logout",
-      onClick: () => {
-        localStorage.removeItem("user");
-        navigate("/login");
-      },
-    },
   ];
 
   return (
@@ -43,6 +46,9 @@ export const DefaultLayout = () => {
           items={items}
           style={{ flex: 1, minWidth: 0 }}
         />
+        <Button onClick={handleLogout} danger>
+          Logout
+        </Button>
       </Header>
       <Content
         style={{

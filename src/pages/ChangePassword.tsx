@@ -19,8 +19,9 @@ export const ChangePassword = () => {
     // console.log("user info", user);
 
     const validatePassword = user.password === values.password;
+    const prevPassword = user.password === values.newPassword;
 
-    if (validatePassword) {
+    if (validatePassword && !prevPassword) {
       await api.patch(`/users/${userId}`, { password: values.newPassword });
       console.log("Password updated!!");
       localStorage.removeItem("resetUser");
