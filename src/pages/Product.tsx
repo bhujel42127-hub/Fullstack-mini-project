@@ -3,6 +3,8 @@ import { api } from "../utlis/Api";
 import { useEffect, useState } from "react";
 import type { Product } from "../Props";
 import { Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { openNotification } from "../utlis/openNotification";
 
 type Value = {
   isModalOpen: boolean;
@@ -25,7 +27,7 @@ export default function ProductPage() {
     isLoading: false,
     isEdit: false,
   });
-  const columns = [
+  const columns: ColumnsType<Product> = [
     {
       title: "Name",
       dataIndex: "name",
@@ -49,7 +51,7 @@ export default function ProductPage() {
     {
       title: "Action",
       key: "action",
-      render: (_: any, record: Product) => (
+      render: (_: unknown, record: Product) => (
         <Space size="middle">
           <Button
             onClick={() => {
@@ -130,6 +132,8 @@ export default function ProductPage() {
         ...prev,
         isModalOpen: false,
       }));
+    openNotification("success", "Product Edit", `Product edited`);
+
     } else {
       console.log("reached");
 
@@ -140,6 +144,7 @@ export default function ProductPage() {
         ...prev,
         isModalOpen: false,
       }));
+      openNotification("success", "Product Added", `Product added`);
       // const timeStamp = new Date().toISOString();
 
       // const newProduct = [{
@@ -158,6 +163,11 @@ export default function ProductPage() {
 
     await api.delete(`/products/${id}`);
     await fetchProduct();
+    openNotification(
+      "success",
+      "Product Deleted",
+      `Product deleted`
+    );
     console.log("reached");
   };
 

@@ -1,21 +1,39 @@
 import { useEffect, useState } from "react";
 import type { User } from "../Props";
 import { api } from "../utlis/Api";
-import { Button, Card, Form, Input, Table, type FormProps } from "antd";
-import { editSuccess } from "../utlis/openNotification";
+import { Button, Form, Input, type FormProps } from "antd";
+import { openNotification } from "../utlis/openNotification";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User[]>([]);
+  const [form] = Form.useForm();
 
+  const fetchUser = async () =>{
+    const userId = localStorage.getItem("userId");
+    // console.log("user id", userId);
+    
+    if (!userId) return;
+    try {
+      const res = await api.get(`/users/${userId}`);
+      const userData = res.data.user;
+      setUser(userData);      
+      console.log("User state:", user);
+      
+      form.setFieldsValue(userData);
+      
+    } catch (error) {
+      console.log("Getting user info error:", error);
+      
+    }
+    // console.log("User data: ", res.data);
+    
+  }
   useEffect(() => {
-    const loggedUser = localStorage.getItem("userId");
-    if (!loggedUser) return;
-    const userInfo: User[] = JSON.parse(loggedUser);
-    setUser(userInfo);
-    form.setFieldsValue(userInfo[0]);
+    fetchUser();
+    form.setFieldsValue(user[0]);
+
   }, []);
 
-  const [form] = Form.useForm();
 
   const onFinish: FormProps<User>["onFinish"] = async (values) => {
     // console.log("reached");
@@ -23,16 +41,22 @@ export default function ProfilePage() {
     // if (!loggedUser) return;
 
     // const userInfo: User[] = JSON.parse(loggedUser);
-    const userId = user[0].id;
-
+    // fetchUser();  
+    const userId = localStorage.getItem("userId");
+    // console.log("User id", userId);
+    
+    if (!userId) return;
+    
     await api.put(`/users/${userId}`, values);
-    await localStorage.setItem(
-      "user",
-      JSON.stringify([{ ...user[0], ...values }])
-    );
-    editSuccess();
+    
+    openNotification("success", "Profile Updated", "Your profile has been updated successfully");
+    await api.get(`/users/${userId}`).then((res) => {
+      const updatedUser = res.data.user;
+      console.log("Updated user:", updatedUser);
+    });
 
-    setUser([{ ...user[0], ...values }]);
+    
+
 
     // window.location.reload();
 
@@ -76,9 +100,9 @@ export default function ProfilePage() {
         <Form.Item<User> label="Email" name="email">
           <Input />
         </Form.Item>
-        <Form.Item<User> label="Password" name="password">
+        {/* <Form.Item<User> label="Password" name="password">
           <Input.Password readOnly />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit">

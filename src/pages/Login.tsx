@@ -1,9 +1,9 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import { api } from "../utlis/Api";
-import type { FieldType, User } from "../Props";
-import { useNavigate } from "react-router-dom";
-import { loginFailure } from "../utlis/openNotification";
+import type { FieldType } from "../Props";
+import { Link, useNavigate } from "react-router-dom";
+import { openNotification } from "../utlis/openNotification";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -12,10 +12,13 @@ export const Login = () => {
     //   // console.log("reached");
     try {
       const res = await api.post("/auth/login", values);
-      localStorage.setItem("userId", res.data.user.id);
+      // console.log("User id:", res.data.user.id);
+      
+      localStorage.setItem("userId", res.data.user.id);      
       
       navigate("/dashboard");
     } catch (err) {
+      openNotification("error", "Login Failed", "Invalid credentials");
       console.log("Login error: ", err);
     }
 
@@ -37,7 +40,6 @@ export const Login = () => {
     //     return;
     //     // console.log("User logged in!", res.data);
     //   }
-    //   loginFailure();
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -89,16 +91,12 @@ export const Login = () => {
             </Form.Item>
 
             <div className="text-center">
-              <a href="/signup" className="text-blue-500 hover:text-blue-700">
+              <Link to="/signup" className="text-blue-500 hover:text-blue-700">
                 Don't have an account? SignUp
-              </a>
+              </Link>
               <br />
-              <a
-                href="/verify-email"
-                className="text-blue-500 hover:text-blue-700"
-              >
-                Forgot Password?
-              </a>
+              <Link to="/verify-email" className="text-blue-500 hover:text-blue-700">Forgot password? 
+              </Link>
             </div>
           </Form>
         </div>

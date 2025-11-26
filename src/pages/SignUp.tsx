@@ -1,8 +1,8 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
-import type { FieldType, User } from "../Props";
+import type { FieldType} from "../Props";
 import { api } from "../utlis/Api";
-import { dupEmailNotification } from "../utlis/openNotification";
+import { openNotification } from "../utlis/openNotification";
 import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
@@ -16,10 +16,11 @@ export const SignUp = () => {
         password: values.password,
       };
       const res = await api.post("/auth/signup", newUser);
+      openNotification("success", "Signup Successful", "You can now login with your credentials");
       navigate("/login");
     } catch (err: any) {
       if (err.response?.data?.message === "Email already used") {
-        dupEmailNotification();
+        openNotification("error", "Signup Failed", "Email already in use");
       } else {
         console.log(err);
       }

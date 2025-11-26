@@ -28,5 +28,5 @@ export type FieldType = {
 };
 
 export type AuthProps = {
-  children: any;
+  children: React.ReactNode;
 };
