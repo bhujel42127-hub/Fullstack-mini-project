@@ -13,7 +13,7 @@ export const Login = () => {
     try {
       const res = await api.post("/auth/login", values);
       localStorage.setItem("userId", res.data.user.id);
-
+      
       navigate("/dashboard");
     } catch (err) {
       console.log("Login error: ", err);

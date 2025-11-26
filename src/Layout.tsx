@@ -10,7 +10,10 @@ export const DefaultLayout = () => {
 
   const handleLogout = async () => {
     try {
+      console.log("frontend logout");
+
       await api.post("/auth/logout");
+
       localStorage.removeItem("userId");
       navigate("/login");
     } catch (err) {
