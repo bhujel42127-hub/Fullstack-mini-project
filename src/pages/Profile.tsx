@@ -8,32 +8,27 @@ export default function ProfilePage() {
   const [user, setUser] = useState<User[]>([]);
   const [form] = Form.useForm();
 
-  const fetchUser = async () =>{
+  const fetchUser = async () => {
     const userId = localStorage.getItem("userId");
     // console.log("user id", userId);
-    
+
     if (!userId) return;
     try {
       const res = await api.get(`/users/${userId}`);
       const userData = res.data.user;
-      setUser(userData);      
-      console.log("User state:", user);
-      
+      setUser(userData);
+
+      console.log("User data:", userData);
       form.setFieldsValue(userData);
-      
     } catch (error) {
       console.log("Getting user info error:", error);
-      
     }
     // console.log("User data: ", res.data);
-    
-  }
+  };
   useEffect(() => {
     fetchUser();
     form.setFieldsValue(user[0]);
-
   }, []);
-
 
   const onFinish: FormProps<User>["onFinish"] = async (values) => {
     // console.log("reached");
@@ -41,22 +36,23 @@ export default function ProfilePage() {
     // if (!loggedUser) return;
 
     // const userInfo: User[] = JSON.parse(loggedUser);
-    // fetchUser();  
+    // fetchUser();
     const userId = localStorage.getItem("userId");
     // console.log("User id", userId);
-    
+
     if (!userId) return;
-    
+
     await api.put(`/users/${userId}`, values);
-    
-    openNotification("success", "Profile Updated", "Your profile has been updated successfully");
+
+    openNotification(
+      "success",
+      "Profile Updated",
+      "Your profile has been updated successfully"
+    );
     await api.get(`/users/${userId}`).then((res) => {
       const updatedUser = res.data.user;
       console.log("Updated user:", updatedUser);
     });
-
-    
-
 
     // window.location.reload();
 

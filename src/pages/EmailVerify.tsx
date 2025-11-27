@@ -6,14 +6,17 @@ import { useNavigate } from "react-router-dom";
 export const VerifyEmail = () => {
   const navigate = useNavigate();
   const onFinish = async (values: FieldType) => {
+    console.log("before verify email post");
     try {
-      const res = await api.post("/auth/verify-email", {
-        email: values.email,
-      });
+      console.log("form data:", values.email);
+
+      const res = await api.post("/auth/verify-email", values);
+
       if (!res.data) return;
-      
-      localStorage.setItem("resetUser", res.data.userId);
-      navigate("/forgot-password");
+      const user = res.data;
+      console.log("Response data:", user);
+
+      // navigate("/forgot-password");
     } catch (error) {
       console.log("Email verification error:", error);
     }

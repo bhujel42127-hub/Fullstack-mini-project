@@ -1,7 +1,8 @@
-import { Button, Form, Input, type FormProps } from "antd";
-import type { FieldType } from "../Props";
+import { Button, Form, Input } from "antd";
+import type { ChangePasswordFieldType } from "../Props";
 import { api } from "../utlis/Api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { openNotification } from "../utlis/openNotification";
 
 // const validatePassword = async (newPassword: string) => {
 //   const res = await api.get<User[]>("/users");
@@ -11,25 +12,40 @@ import { useNavigate } from "react-router-dom";
 
 export const ChangePassword = () => {
   const navigate = useNavigate();
-  const onFinish = async (values: FieldType) => {
-    const userId = localStorage.getItem("resetUser");
-    const res = await api.get(`/users/${userId}`);
+  const [searchParams] = useSearchParams();
 
-    const user = res.data;
-    // console.log("user info", user);
+  const token = searchParams.get("token");
 
-    const validatePassword = user.password === values.password;
-    const prevPassword = user.password === values.newPassword;
-
-    if (validatePassword && !prevPassword) {
-      await api.patch(`/users/${userId}`, { password: values.newPassword });
-      console.log("Password updated!!");
-      localStorage.removeItem("resetUser");
-      navigate("/login");
+  const onFinish = async (values: ChangePasswordFieldType) => {
+    // console.log("reset token: ", token);
+    if (values.newPassword !== values.confirmPassword) {
+      openNotification(
+        "error",
+        "Password change failed!",
+        "Passwords do not match!"
+      );
       return;
-    } else {
-      console.log("Password not matched!!!");
     }
+    try {
+      console.log("before reset pass post");
+
+      const res = await api.post("/auth/reset-password", {
+        token,
+        newPassword: values.newPassword,
+      });
+      openNotification(
+        "success",
+        "Password change",
+        "Password changed successfully!"
+      );
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (error) {
+      console.log("Password change error:", error);
+    }
+
+    // console.log("user info", user);
 
     // const res = await api.get<User[]>("/users");
 
@@ -62,10 +78,10 @@ export const ChangePassword = () => {
         autoComplete="off"
         className="w-full max-w-md bg-white p-6 rounded-lg shadow"
       >
-        <Form.Item label="Current Password" name="password">
+        <Form.Item label="New Password" name="newPassword">
           <Input.Password />
         </Form.Item>
-        <Form.Item label="New Password" name="newPassword">
+        <Form.Item label="Confirm Password" name="confirmPassword">
           <Input.Password />
         </Form.Item>
         <Form.Item className="flex justify-center items-center">

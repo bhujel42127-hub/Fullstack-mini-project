@@ -1,6 +1,6 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
-import type { FieldType} from "../Props";
+import type { FieldType } from "../Props";
 import { api } from "../utlis/Api";
 import { openNotification } from "../utlis/openNotification";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +14,14 @@ export const SignUp = () => {
         name: values.name,
         email: values.email,
         password: values.password,
+        bio: values.bio,
       };
-      const res = await api.post("/auth/signup", newUser);
-      openNotification("success", "Signup Successful", "You can now login with your credentials");
+      await api.post("/auth/signup", newUser);
+      openNotification(
+        "success",
+        "Signup Successful",
+        "You can now login with your credentials"
+      );
       navigate("/login");
     } catch (err: any) {
       if (err.response?.data?.message === "Email already used") {
@@ -108,7 +113,7 @@ export const SignUp = () => {
 
             <Form.Item<FieldType>
               label="Confirm Password"
-              name="newPassword"
+              name="confirmPassword"
               rules={[{ message: "Please confirm your password!" }]}
             >
               <Input.Password size="large" />

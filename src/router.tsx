@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/forgot-password",
+    path: "/reset-password",
     element: (
       <PublicRoute>
         <ChangePassword />

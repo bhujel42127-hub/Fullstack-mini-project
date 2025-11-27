@@ -24,7 +24,11 @@ export type FieldType = {
   bio?: string;
   email: string;
   password: string;
+  confirmPassword: string;
+};
+export type ChangePasswordFieldType = {
   newPassword: string;
+  confirmPassword: string;
 };
 
 export type AuthProps = {
