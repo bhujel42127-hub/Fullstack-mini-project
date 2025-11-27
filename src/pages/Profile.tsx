@@ -7,12 +7,19 @@ import { editSuccess } from "../utlis/openNotification";
 export default function ProfilePage() {
   const [user, setUser] = useState<User[]>([]);
 
+  const fetchUser = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+    const res = await api.get(`users/${userId}`);
+    const userInfo: User[] = res.data;
+    console.log("user info:", userInfo);
+  };
+
   useEffect(() => {
-    const loggedUser = localStorage.getItem("userId");
-    if (!loggedUser) return;
-    const userInfo: User[] = JSON.parse(loggedUser);
-    setUser(userInfo);
-    form.setFieldsValue(userInfo[0]);
+    fetchUser();
+    
+    setUser();
+    // form.setFieldsValue(userInfo[0]);
   }, []);
 
   const [form] = Form.useForm();

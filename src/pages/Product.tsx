@@ -80,6 +80,9 @@ export default function ProductPage() {
 
   const fetchProduct = async () => {
     const res = await api.get("/products");
+    console.log("product fetched");
+    console.log(res.data);
+
     setProduct(res.data.products);
   };
   useEffect(() => {
