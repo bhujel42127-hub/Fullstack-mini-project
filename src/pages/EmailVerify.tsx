@@ -5,19 +5,19 @@ import { useNavigate } from "react-router-dom";
 
 export const VerifyEmail = () => {
   const navigate = useNavigate();
-
   const onFinish = async (values: FieldType) => {
-    const res = await api.get<User[]>("/users");
-
-    const user = res.data.find((e) => e.email === values.email);
-
-    if (!user) return;
-
-    localStorage.setItem("resetUser", String(user.id));
-
-    console.log("user", user.bio);
-
-    navigate("/forgot-password");
+    try {
+      const res = await api.post("/auth/verify-email", {
+        email: values.email,
+      });
+      if (!res.data) return;
+      
+      localStorage.setItem("resetUser", res.data.userId);
+      navigate("/forgot-password");
+    } catch (error) {
+      console.log("Email verification error:", error);
+    }
+    // console.log("Found user:", user);
   };
 
   return (
@@ -32,12 +32,19 @@ export const VerifyEmail = () => {
         autoComplete="off"
         className="w-full max-w-md bg-white p-6 rounded-lg shadow"
       >
-        <Form.Item<User> label="Email" name="email">
+        <Form.Item<User>
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Please input your email!" },
+            { type: "email", message: "Please enter a valid email!" },
+          ]}
+        >
           <Input />
         </Form.Item>
         <Form.Item className="flex justify-center items-center">
           <Button type="primary" htmlType="submit">
-            Confirm
+            Verify
           </Button>
         </Form.Item>
       </Form>

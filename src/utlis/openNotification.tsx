@@ -1,32 +1,17 @@
 import notification from "antd/es/notification";
 
-export const dupEmailNotification = () => {
-  notification.error({
-    message: "Duplicate Email",
-    description: "Email already exists",
-    placement: "topRight",
-  });
-};
+type NotificationType = "success" | "info" | "warning" | "error";
 
-export const passNotification = () => {
-  notification.error({
-    message: "Passowrd error",
-    description: "Email already exists",
-    placement: "topRight",
-  });
-};
+export const openNotification = (
+  type: NotificationType,
+  message: string,
+  description?: string,
+  placement: "topRight" | "topLeft" | "bottomRight" | "bottomLeft" = "topRight"
+) => {
+  notification[type]({
+    message,
+    description,
+    placement,
+  })
+}
 
-export const loginFailure = () => {
-  notification.error({
-    message: "User not found",
-    description: "Incorrect email or password",
-    placement: "topRight",
-  });
-};
-export const editSuccess = () => {
-  notification.success({
-    message: "Update Sucess",
-    description: "Updated user data",
-    placement: "topRight",
-  });
-};
