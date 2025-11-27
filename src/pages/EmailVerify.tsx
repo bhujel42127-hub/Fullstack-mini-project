@@ -2,6 +2,7 @@ import { Button, Form, Input } from "antd";
 import type { FieldType, User } from "../Props";
 import { api } from "../utlis/Api";
 import { useNavigate } from "react-router-dom";
+import { openNotification } from "../utlis/openNotification";
 
 export const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export const VerifyEmail = () => {
 
       // navigate("/forgot-password");
     } catch (error) {
+      openNotification("error", "Verification Failed", "User not found");
       console.log("Email verification error:", error);
     }
     // console.log("Found user:", user);
