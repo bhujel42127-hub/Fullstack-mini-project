@@ -5,12 +5,14 @@ import type { Product } from "../Props";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { openNotification } from "../utlis/openNotification";
+import { SearchBar } from "../components/SearchBar";
 
 type Value = {
   isModalOpen: boolean;
   isLoading: boolean;
   // defaultValues: Product;
   isEdit: boolean;
+  total: number;
 };
 
 // const defaultProduct = {
@@ -26,7 +28,9 @@ export default function ProductPage() {
     isModalOpen: false,
     isLoading: false,
     isEdit: false,
+    total: 0,
   });
+  const [page, setPage] = useState(1);
   const columns: ColumnsType<Product> = [
     {
       title: "Name",
@@ -80,12 +84,17 @@ export default function ProductPage() {
   ];
   const [product, setProduct] = useState<Product[]>([]);
 
-  const fetchProduct = async () => {
-    const res = await api.get("/products");
+  const fetchProduct = async (page = 1) => {
+    const res = await api.get(`/products?page=${page}`);
     console.log("product fetched");
     console.log(res.data);
 
     setProduct(res.data.products);
+    setValue({
+      ...value,
+      total: res.data.total,
+    });
+    setPage(res.data.page);
   };
   useEffect(() => {
     fetchProduct();
@@ -135,8 +144,7 @@ export default function ProductPage() {
         ...prev,
         isModalOpen: false,
       }));
-    openNotification("success", "Product Edit", `Product edited`);
-
+      openNotification("success", "Product Edit", `Product edited`);
     } else {
       console.log("reached");
 
@@ -166,11 +174,7 @@ export default function ProductPage() {
 
     await api.delete(`/products/${id}`);
     await fetchProduct();
-    openNotification(
-      "success",
-      "Product Deleted",
-      `Product deleted`
-    );
+    openNotification("success", "Product Deleted", `Product deleted`);
     console.log("reached");
   };
 
@@ -188,11 +192,22 @@ export default function ProductPage() {
       dataSource={product}
       rowKey={"_id"}
       columns={columns}
+      pagination={{
+        current: page,
+        pageSize: 5,
+        total: value.total,
+        onChange: (page) => {
+          fetchProduct(page);
+        },
+      }}
     ></Table>
   );
 
+  console.log("Page: ", page);
+
   return (
     <div className="flex flex-col gap-4">
+      <SearchBar setProduct={setProduct} />
       <ProductTable />
       <Button
         type="primary"
